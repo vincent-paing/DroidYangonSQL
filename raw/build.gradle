@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+  compileSdkVersion BuildConfig.compileSdk
+
+
+  defaultConfig {
+    minSdkVersion BuildConfig.minSdk
+    targetSdkVersion BuildConfig.targetSdk
+    resConfigs "en", "mm", "zg"
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  testOptions {
+    unitTests {
+      includeAndroidResources = true
+    }
+  }
+}
+
+dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+  implementation project(':data')
+
+  testImplementation CommonLibs.junit
+  testImplementation AndroidArchCore.test
+  testImplementation Mockito.core
+  testImplementation Mockito.inline
+  testImplementation Mockito.kotlin
+  testImplementation AndroidXTest.roboelectric
+  testImplementation AndroidXTestExt.junit
+  testImplementation AndroidXTestExt.junit_ktx
+  testImplementation AndroidXTestExt.truth
+  kaptTest Moshi.code_gen
+
+  kaptAndroidTest Dagger.compiler
+
+  //Moshi
+  implementation Moshi.core
+  kapt Moshi.code_gen
+
+  //Kotlin
+  implementation Kotlin.stdblib_jdk
+
+  //AndroidX Extension
+  implementation AndroidXCore.core_ktx
+
+  //Sqlite
+  implementation AndroidXSqlite.sqlite
+  implementation AndroidXSqlite.sqlite_ktx
+}
